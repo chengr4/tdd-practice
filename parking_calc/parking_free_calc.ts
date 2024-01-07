@@ -5,7 +5,11 @@ class ParkingFeeCalculator {
         if (minutes < 15) {
             return 0;
         }
-        return 30;
+
+        if (minutes < 30) {
+            return 30;
+        }
+        return 60;
     }
 }
 
