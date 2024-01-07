@@ -42,4 +42,16 @@ Deno.test("over 60 min then pay 90", () => {
   assertEquals(actual, 90);
 });
 
+Deno.test("over 150 min then pay 150", () => {
+  const sut = new ParkingFeeCalculator();
+
+  const start = new Date("2020-01-01T00:00:00");
+  const end = new Date("2020-01-01T02:30:00");
+
+  const actual = sut.calculate(start, end);
+  assertEquals(actual, 150);
+});
+
+
+
 
