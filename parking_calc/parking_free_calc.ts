@@ -6,6 +6,11 @@ class ParkingFeeCalculator {
             return 0;
         }
 
+        return this.getRegularFee(minutes);
+
+    }
+
+    private getRegularFee(minutes: number) {
         const period = Math.floor(minutes / 30);
 
         return (period + 1) * 30;
