@@ -6,10 +6,9 @@ class ParkingFeeCalculator {
             return 0;
         }
 
-        if (minutes < 30) {
-            return 30;
-        }
-        return 60;
+        const period = Math.floor(minutes / 30);
+
+        return (period + 1) * 30;
     }
 }
 
