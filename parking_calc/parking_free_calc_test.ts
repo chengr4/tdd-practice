@@ -11,3 +11,13 @@ Deno.test("15 mins free", () => {
   const actual = sut.calculate(start, end);
   assertEquals(actual, 0);
 });
+
+Deno.test("over 15 min not free", () => {
+  const sut = new ParkingFeeCalculator();
+
+  const start = new Date("2020-01-01T00:00:00");
+  const end = new Date("2020-01-01T00:15:00");
+
+  const actual = sut.calculate(start, end);
+  assertEquals(actual, 30);
+});
