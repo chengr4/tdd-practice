@@ -1,4 +1,4 @@
 export function getStartOfDay(date: Date) {    
-    date.setUTCHours(0, 0, 0, 0);
-    return date;
+    const startOfDay = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+    return startOfDay;
 }
