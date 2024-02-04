@@ -22,8 +22,8 @@ Deno.test("over 15 min not free", () => {
 });
 
 Deno.test("over 30 min then pay 60", () => {
-  startParkingAt("2020-01-02T00:00:00Z");
-  endParkingAt("2020-01-02T00:30:01Z");
+  startParkingAt("2020-01-02T00:01:00Z");
+  endParkingAt("2020-01-02T00:31:01Z");
   calculate();
   shouldPay(60);
 });
@@ -54,6 +54,13 @@ Deno.test("day1 10 min, day2 whole day", () => {
   endParkingAt("2020-01-04T00:00:00Z");
   calculate();
   shouldPay(30 + 150);
+});
+
+Deno.test("day1 whole day, day2 10 min", () => {
+  startParkingAt("2020-01-02T00:00:00Z");
+  endParkingAt("2020-01-03T00:10:00Z");
+  calculate();
+  shouldPay(150 + 30);
 });
 
 function shouldPay(expected: number) {
