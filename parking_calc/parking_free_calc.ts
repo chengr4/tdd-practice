@@ -7,7 +7,7 @@ class ParkingFeeCalculator {
     if (minutes <= 15) {
       return 0;
     }
-    
+
     // fee in one day
     if (start.getDate() === end.getDate()) {
       return Math.min(this.getRegularFee(minutes), 150);
@@ -25,7 +25,8 @@ class ParkingFeeCalculator {
         const sessionMinutes = (end.getTime() - todayStart.getTime()) / 1000 / 60;
         totalFee += Math.min(this.getRegularFee(sessionMinutes), 150);
       } else {
-        totalFee += 150;
+        const sessionMinutes = (new Date(todayStart.getTime() + 24 * 60 * 60 * 1000).getTime() - start.getTime()) / 1000 / 60;
+        totalFee += Math.min(this.getRegularFee(sessionMinutes), 150);
       }
       todayStart.setDate(todayStart.getDate() + 1);
     }
