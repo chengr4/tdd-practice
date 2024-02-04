@@ -42,6 +42,13 @@ Deno.test("over 150 min then pay 150", () => {
   shouldPay(150);
 });
 
+Deno.test("two whole days", () => {
+  startParkingAt("2020-01-02T00:00:00");
+  endParkingAt("2020-01-04T00:00:00");
+  calculate();
+  shouldPay(150 + 150);
+});
+
 function shouldPay(expected: number) {
   assertEquals(actual, expected);
 }
