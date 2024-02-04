@@ -1,4 +1,4 @@
-export function getStartOfDay(date: Date) {
-    date.setHours(0, 0, 0, 0);
+export function getStartOfDay(date: Date) {    
+    date.setUTCHours(0, 0, 0, 0);
     return date;
 }
