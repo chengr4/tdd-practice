@@ -15,20 +15,32 @@ class ParkingFeeCalculator {
 
     // more than one day
     let totalFee = 0;
-    const todayStart = getStartOfDay(start);
+    let todayStart: Date = getStartOfDay(start);
 
     while (todayStart.getTime() < end.getTime()) {
-      if (start.getTime() > todayStart.getTime()) {
-        const sessionMinutes = (new Date(todayStart.getTime() + 24 * 60 * 60 * 1000).getTime() - start.getTime()) / 1000 / 60;
-        totalFee += Math.min(this.getRegularFee(sessionMinutes), 150);
-      } else if (end.getTime() < todayStart.getTime() + 24 * 60 * 60 * 1000) {
-        const sessionMinutes = (end.getTime() - todayStart.getTime()) / 1000 / 60;
-        totalFee += Math.min(this.getRegularFee(sessionMinutes), 150);
-      } else {
-        const sessionMinutes = (new Date(todayStart.getTime() + 24 * 60 * 60 * 1000).getTime() - start.getTime()) / 1000 / 60;
-        totalFee += Math.min(this.getRegularFee(sessionMinutes), 150);
-      }
-      todayStart.setDate(todayStart.getDate() + 1);
+
+      const currentStart = end.getTime() < todayStart.getTime() + 24 * 60 * 60 * 1000 ?
+        end.getTime() : todayStart.getTime() + 24 * 60 * 60 * 1000;
+      const currEnd = end.getTime() < todayStart.getTime() + 24 * 60 * 60 * 1000 ?
+        todayStart.getTime() : start.getTime();
+      const sessionMinutes = (currentStart - currEnd) / 1000 / 60;
+      totalFee += Math.min(this.getRegularFee(sessionMinutes), 150);
+
+      // if (start.getTime() > todayStart.getTime()) {
+      //   // const currentStart = new Date(todayStart.getTime() + 24 * 60 * 60 * 1000).getTime();
+      //   // const currEnd = start.getTime();
+      // } else if (end.getTime() < todayStart.getTime() + 24 * 60 * 60 * 1000) {
+      //   // const currentStart = end.getTime();
+      //   // const currEnd = todayStart.getTime();
+      //   const sessionMinutes = ( currentStart- currEnd) / 1000 / 60;
+      //   totalFee += Math.min(this.getRegularFee(sessionMinutes), 150);
+      // } else {
+      //   // const currentStart = new Date(todayStart.getTime() + 24 * 60 * 60 * 1000).getTime();
+      //   // const currEnd = start.getTime();
+      //   const sessionMinutes = (currentStart - currEnd) / 1000 / 60;
+      //   totalFee += Math.min(this.getRegularFee(sessionMinutes), 150);
+      // }
+      todayStart = new Date(todayStart.getTime() + 24 * 60 * 60 * 1000);
     }
 
     return totalFee;
