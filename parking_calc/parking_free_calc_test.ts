@@ -8,45 +8,52 @@ let actual: number;
 const sut = new ParkingFeeCalculator();
 
 Deno.test("15 mins free", () => {
-  startParkingAt("2020-01-02T00:00:00");
-  endParkingAt("2020-01-02T00:15:00");
+  startParkingAt("2020-01-02T00:00:00Z");
+  endParkingAt("2020-01-02T00:15:00Z");
   calculate();
   shouldPay(0);
 });
 
 Deno.test("over 15 min not free", () => {
-  startParkingAt("2020-01-02T00:00:00");
-  endParkingAt("2020-01-02T00:15:01");
+  startParkingAt("2020-01-02T00:00:00Z");
+  endParkingAt("2020-01-02T00:15:01Z");
   calculate();
   shouldPay(30);
 });
 
 Deno.test("over 30 min then pay 60", () => {
-  startParkingAt("2020-01-02T00:00:00");
-  endParkingAt("2020-01-02T00:30:01");
+  startParkingAt("2020-01-02T00:00:00Z");
+  endParkingAt("2020-01-02T00:30:01Z");
   calculate();
   shouldPay(60);
 });
 
 Deno.test("over 60 min then pay 90", () => {
-  startParkingAt("2020-01-02T00:00:00");
-  endParkingAt("2020-01-02T01:00:01");
+  startParkingAt("2020-01-02T00:00:00Z");
+  endParkingAt("2020-01-02T01:00:01Z");
   calculate();
   shouldPay(90);
 });
 
 Deno.test("over 150 min then pay 150", () => {
-  startParkingAt("2020-01-02T00:00:00");
-  endParkingAt("2020-01-02T02:30:01");
+  startParkingAt("2020-01-02T00:00:00Z");
+  endParkingAt("2020-01-02T02:30:01Z");
   calculate();
   shouldPay(150);
 });
 
 Deno.test("two whole days", () => {
-  startParkingAt("2020-01-02T00:00:00");
-  endParkingAt("2020-01-04T00:00:00");
+  startParkingAt("2020-01-02T00:00:00Z");
+  endParkingAt("2020-01-04T00:00:00Z");
   calculate();
   shouldPay(150 + 150);
+});
+
+Deno.test("day1 10 min, day2 whole day", () => {
+  startParkingAt("2020-01-02T23:50:00Z");
+  endParkingAt("2020-01-04T00:00:00Z");
+  calculate();
+  shouldPay(30 + 150);
 });
 
 function shouldPay(expected: number) {
