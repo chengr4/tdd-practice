@@ -15,18 +15,18 @@ class ParkingFeeCalculator {
 
     // more than one day
     let totalFee = 0;
-    let todayStart: Date = getStartOfDay(start);
+    let todayStartTime: number = getStartOfDay(start).getTime();
 
-    while (todayStart.getTime() < end.getTime()) {
-      const currentStart = end.getTime() < todayStart.getTime() + 24 * 60 * 60 * 1000 ?
-        end.getTime() : todayStart.getTime() + 24 * 60 * 60 * 1000;
-      const currEnd = end.getTime() < todayStart.getTime() + 24 * 60 * 60 * 1000 ?
-        todayStart.getTime() : start.getTime();
+    while (todayStartTime < end.getTime()) {
+      const currentStart = end.getTime() < todayStartTime + 24 * 60 * 60 * 1000 ?
+        end.getTime() : todayStartTime + 24 * 60 * 60 * 1000;
+      const currEnd = end.getTime() < todayStartTime + 24 * 60 * 60 * 1000 ?
+      todayStartTime : start.getTime();
       const sessionMinutes = (currentStart - currEnd) / 1000 / 60;
 
       totalFee += Math.min(this.getRegularFee(sessionMinutes), 150);
-      
-      todayStart = new Date(todayStart.getTime() + 24 * 60 * 60 * 1000);
+
+      todayStartTime = todayStartTime + 24 * 60 * 60 * 1000;
     }
 
     return totalFee;
