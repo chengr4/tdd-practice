@@ -7,23 +7,25 @@ class ParkingFeeCalculator {
     if (minutes <= 15) {
       return 0;
     }
-    // protect fee in one day
+    // fee in one day
     if (start.getDate() === end.getDate()) {
       return Math.min(this.getRegularFee(minutes), 150);
-    } else {
-
+    } else {  // more than one day
       let totalFee = 0;
       const todayStart = getStartOfDay(start);
 
       while (todayStart.getTime() < end.getTime()) {
-        totalFee += 150;
+        if (start.getTime() > todayStart.getTime()) {
+          const sessionMinutes = (new Date(todayStart.getTime() + 24 * 60 * 60 * 1000).getTime() - start.getTime()) / 1000 / 60;
+          totalFee += Math.min(this.getRegularFee(sessionMinutes), 150);
+        } else {
+          totalFee += 150;
+        }
         todayStart.setDate(todayStart.getDate() + 1);
       }
 
-
       return totalFee;
     }
-
   }
 
   private getRegularFee(minutes: number) {
