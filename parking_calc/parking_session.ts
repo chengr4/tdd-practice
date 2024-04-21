@@ -1,8 +1,8 @@
 import { getStartOfDay } from "./utils/date_tools.ts";
 
 class ParkingSession {
-  private start: Date;
-  private end: Date;
+  private readonly start: Date;
+  private readonly end: Date;
 
   constructor(start: Date, end: Date) {
     this.start = start;
@@ -13,19 +13,15 @@ class ParkingSession {
     return this.start;
   }
 
-  setStart(start: Date) {
-    this.start = start;
-  }
-
   getEnd() {
     return this.end;
   }
 
-  setEnd(end: Date) {
-    this.end = end;
+  getTotalDuration(): number {
+    return this.end.getTime() - this.start.getTime();
   }
 
-   getDailyDurationList(parkingSession: ParkingSession) {
+  getDailyDurationList(parkingSession: ParkingSession) {
     const dailyDurationList: number[] = [];
     let todayStartTime: number = getStartOfDay(parkingSession.getStart()).getTime();
 

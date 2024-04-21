@@ -2,9 +2,9 @@ import ParkingSession from "./parking_session.ts";
 
 class ParkingFeeCalculator {
   calculate(parkingSession: ParkingSession) {
-    const diff = parkingSession.getEnd().getTime() - parkingSession.getStart().getTime();
-    const minutes = diff / 1000 / 60;
-    if (minutes <= 15) {
+    const totalDuration = parkingSession.getTotalDuration();
+
+    if (this.isLessFifteenMinutes(totalDuration)) {
       return 0;
     }
 
@@ -23,6 +23,15 @@ class ParkingFeeCalculator {
     const period = Math.floor(minutes / 30);
 
     return (period + 1) * 30;
+  }
+
+  private isLessFifteenMinutes(totalDuration: number): boolean {
+    const minutes = totalDuration / 1000 / 60;
+    if (minutes <= 15) {
+      return true;
+    }
+
+    return false;
   }
 }
 
