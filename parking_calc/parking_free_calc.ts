@@ -16,11 +16,11 @@ class ParkingFeeCalculator {
     // calculate fee with daily duration => charging behavior
     while (todayStartTime < end.getTime()) {
       const tomorrowStartTime: number = todayStartTime + 24 * 60 * 60 * 1000;
-      const currrentStart = start.getTime() > todayStartTime ?
+      const currentStart = start.getTime() > todayStartTime ?
         start.getTime(): todayStartTime;
       const currentEnd = end.getTime() < tomorrowStartTime ?
         end.getTime() : tomorrowStartTime;
-      const sessionMinutes = (currentEnd - currrentStart) / 1000 / 60;
+      const sessionMinutes = (currentEnd - currentStart) / 1000 / 60;
 
       totalFee += Math.min(this.getRegularFee(sessionMinutes), 150);
 
