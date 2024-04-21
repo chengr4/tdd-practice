@@ -1,3 +1,4 @@
+import ParkingSession from "./parking_session.ts";
 import ParkingFeeCalculator from "./parking_free_calc.ts";
 import { assertEquals } from "std/assert/assert_equals.ts";
 
@@ -76,5 +77,6 @@ function startParkingAt(startText: string) {
 }
 
 function calculate() {
-  actual = sut.calculate(start, end);
+  const parkingSession = new ParkingSession(start, end);
+  actual = sut.calculate(parkingSession);
 }

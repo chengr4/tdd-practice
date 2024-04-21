@@ -1,14 +1,15 @@
 import { getStartOfDay } from "./utils/date_tools.ts";
+import ParkingSession from "./parking_session.ts";
 
 class ParkingFeeCalculator {
-  calculate(start: Date, end: Date) {
-    const diff = end.getTime() - start.getTime();
+  calculate(parkingSession: ParkingSession) {
+    const diff = parkingSession.getEnd().getTime() - parkingSession.getStart().getTime();
     const minutes = diff / 1000 / 60;
     if (minutes <= 15) {
       return 0;
     }
 
-    const dailyDurationList: number[] = this.getDailyDurationList(start, end);
+    const dailyDurationList: number[] = this.getDailyDurationList(parkingSession);
 
     let totalFee = 0;
     // the second loop is for charging behavior
@@ -19,17 +20,17 @@ class ParkingFeeCalculator {
     return totalFee;
   }
 
-  private getDailyDurationList(start: Date, end: Date) {
+  private getDailyDurationList(parkingSession: ParkingSession) {
     const dailyDurationList: number[] = [];
-    let todayStartTime: number = getStartOfDay(start).getTime();
+    let todayStartTime: number = getStartOfDay(parkingSession.getStart()).getTime();
 
     // The first loop is now only for parking behavior
-    while (todayStartTime < end.getTime()) {
+    while (todayStartTime < parkingSession.getEnd().getTime()) {
       const tomorrowStartTime: number = todayStartTime + 24 * 60 * 60 * 1000;
-      const currentStart = start.getTime() > todayStartTime ?
-        start.getTime() : todayStartTime;
-      const currentEnd = end.getTime() < tomorrowStartTime ?
-        end.getTime() : tomorrowStartTime;
+      const currentStart = parkingSession.getStart().getTime() > todayStartTime ?
+        parkingSession.getStart().getTime() : todayStartTime;
+      const currentEnd = parkingSession.getEnd().getTime() < tomorrowStartTime ?
+        parkingSession.getEnd().getTime() : tomorrowStartTime;
       const sessionMinutes = (currentEnd - currentStart) / 1000 / 60;
       dailyDurationList.push(sessionMinutes);
 
