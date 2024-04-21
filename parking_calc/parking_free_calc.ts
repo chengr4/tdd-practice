@@ -8,9 +8,20 @@ class ParkingFeeCalculator {
       return 0;
     }
 
+    const dailyDurationList: number[] = this.getDailyDurationList(start, end);
+
     let totalFee = 0;
-    let todayStartTime: number = getStartOfDay(start).getTime();
+    // the second loop is for charging behavior
+    dailyDurationList.forEach((daily) => {
+      totalFee += Math.min(this.getRegularFee(daily), 150);
+    });
+
+    return totalFee;
+  }
+
+  private getDailyDurationList(start: Date, end: Date) {
     const dailyDurationList: number[] = [];
+    let todayStartTime: number = getStartOfDay(start).getTime();
 
     // The first loop is now only for parking behavior
     while (todayStartTime < end.getTime()) {
@@ -24,13 +35,7 @@ class ParkingFeeCalculator {
 
       todayStartTime = tomorrowStartTime;
     }
-
-    // the second loop is for charging behavior
-    dailyDurationList.forEach((daily) => {
-      totalFee += Math.min(this.getRegularFee(daily), 150);
-    });
-
-    return totalFee;
+    return dailyDurationList;
   }
 
   private getRegularFee(minutes: number) {
