@@ -11,6 +11,9 @@ class ParkingFeeCalculator {
     let totalFee = 0;
     let todayStartTime: number = getStartOfDay(start).getTime();
 
+    // currently, it contains two domain knowledge:
+    // calculate daily duration => parking behavior
+    // calculate fee with daily duration => charging behavior
     while (todayStartTime < end.getTime()) {
       const tomorrowStartTime: number = todayStartTime + 24 * 60 * 60 * 1000;
       const currrentStart = start.getTime() > todayStartTime ?
