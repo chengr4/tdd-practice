@@ -1,5 +1,6 @@
 import DailySession from "./daily_session.ts";
 import ParkingSession from "./parking_session.ts";
+import { isHoliday } from "./utils/date_tools.ts";
 
 class ParkingFeeCalculator {
   calculate(parkingSession: ParkingSession) {
@@ -10,11 +11,11 @@ class ParkingFeeCalculator {
     }
 
     const dailySessionList: DailySession[] = parkingSession.getDailySessionList(parkingSession);
-     let totalFee = 0;
+    let totalFee = 0;
 
-    // charging
+    // charging total fee
     dailySessionList.forEach((dailySession: DailySession) => {
-      const dailyLimit = this.isHoliday(dailySession.getToday()) ? 2400 : 150;
+      const dailyLimit = isHoliday(dailySession.getToday()) ? 2400 : 150;
       totalFee += Math.min(this.getRegularFee(dailySession.getDuration(), dailySession.getToday()), dailyLimit);
     });
 
@@ -27,7 +28,7 @@ class ParkingFeeCalculator {
 
 
     let unitPrice = 30;
-    if (this.isHoliday(today)) {
+    if (isHoliday(today)) {
       unitPrice = 50;
     }
 
@@ -41,10 +42,6 @@ class ParkingFeeCalculator {
     }
 
     return false;
-  }
-
-  private isHoliday(today: Date): boolean {
-    return today.getDay() === 6 || today.getDay() === 0;
   }
 }
 
