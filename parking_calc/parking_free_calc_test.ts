@@ -15,11 +15,30 @@ Deno.test("15 mins free", () => {
   shouldPay(0);
 });
 
-Deno.test("over 15 min not free", () => {
+Deno.test("over 15 min on weekday", () => {
+  // 15 - 30 min
   startParkingAt("2020-01-02T00:00:00Z");
   endParkingAt("2020-01-02T00:15:01Z");
   calculate();
   shouldPay(30);
+
+  // 30 - 60 min
+  startParkingAt("2020-01-02T00:01:00Z");
+  endParkingAt("2020-01-02T00:31:01Z");
+  calculate();
+  shouldPay(60);
+
+  // 60 - 90 min
+  startParkingAt("2020-01-02T00:00:00Z");
+  endParkingAt("2020-01-02T01:00:01Z");
+  calculate();
+  shouldPay(90);
+
+  // max 150 NTD
+  startParkingAt("2020-01-02T00:00:00Z");
+  endParkingAt("2020-01-02T02:30:01Z");
+  calculate();
+  shouldPay(150);
 });
 
 Deno.test("over 15 min not free on Saturday", () => {
@@ -36,27 +55,6 @@ Deno.test("over 15 min not free on Sunday", () => {
   endParkingAt("2024-01-07T00:15:01Z");
   calculate();
   shouldPay(50);
-});
-
-Deno.test("over 30 min then pay 60", () => {
-  startParkingAt("2020-01-02T00:01:00Z");
-  endParkingAt("2020-01-02T00:31:01Z");
-  calculate();
-  shouldPay(60);
-});
-
-Deno.test("over 60 min then pay 90", () => {
-  startParkingAt("2020-01-02T00:00:00Z");
-  endParkingAt("2020-01-02T01:00:01Z");
-  calculate();
-  shouldPay(90);
-});
-
-Deno.test("over 150 min then pay 150", () => {
-  startParkingAt("2020-01-02T00:00:00Z");
-  endParkingAt("2020-01-02T02:30:01Z");
-  calculate();
-  shouldPay(150);
 });
 
 Deno.test("two whole days", () => {

@@ -26,7 +26,7 @@ class ParkingFeeCalculator {
 
 
     let unitPrice = 30;
-    if (today.getDay() === 6 || today.getDay() === 0){
+    if (today.getDay() === 6 || today.getDay() === 0) {
       unitPrice = 50;
     }
 
