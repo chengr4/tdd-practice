@@ -23,7 +23,6 @@ class ParkingSession {
   }
 
   getDailySessionList(parkingSession: ParkingSession): DailySession[] {
-    const dailyDurationList: number[] = [];
     const dailySessionList: DailySession[] = [];
     const today: Date = getStartOfDay(parkingSession.getStart());
     let todayStartTime: number = today.getTime();

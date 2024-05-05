@@ -30,6 +30,14 @@ Deno.test("over 15 min not free on Saturday", () => {
   shouldPay(50);
 });
 
+Deno.test("over 15 min not free on Sunday", () => {
+  // pay 50 NTD per 30 min
+  startParkingAt("2024-01-07T00:00:00Z");
+  endParkingAt("2024-01-07T00:15:01Z");
+  calculate();
+  shouldPay(50);
+});
+
 Deno.test("over 30 min then pay 60", () => {
   startParkingAt("2020-01-02T00:01:00Z");
   endParkingAt("2020-01-02T00:31:01Z");
