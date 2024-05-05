@@ -14,7 +14,7 @@ class ParkingFeeCalculator {
 
     // charging
     dailySessionList.forEach((dailySession: DailySession) => {
-      const dailyLimit = dailySession.getToday().getDay() === 6 || dailySession.getToday().getDay() === 0 ? 2400 : 150;
+      const dailyLimit = this.isHoliday(dailySession.getToday()) ? 2400 : 150;
       totalFee += Math.min(this.getRegularFee(dailySession.getDuration(), dailySession.getToday()), dailyLimit);
     });
 
@@ -27,7 +27,7 @@ class ParkingFeeCalculator {
 
 
     let unitPrice = 30;
-    if (today.getDay() === 6 || today.getDay() === 0) {
+    if (this.isHoliday(today)) {
       unitPrice = 50;
     }
 
@@ -41,6 +41,10 @@ class ParkingFeeCalculator {
     }
 
     return false;
+  }
+
+  private isHoliday(today: Date): boolean {
+    return today.getDay() === 6 || today.getDay() === 0;
   }
 }
 
