@@ -1,3 +1,4 @@
+import DailySession from "./daily_session.ts";
 import ParkingSession from "./parking_session.ts";
 
 class ParkingFeeCalculator {
@@ -8,21 +9,28 @@ class ParkingFeeCalculator {
       return 0;
     }
 
-    const dailyDurationList: number[] = parkingSession.getDailyDurationList(parkingSession);
+    const dailySessionList: DailySession[] = parkingSession.getDailySessionList(parkingSession);
 
     let totalFee = 0;
     // the second loop is for charging behavior
-    dailyDurationList.forEach((daily) => {
-      totalFee += Math.min(this.getRegularFee(daily), 150);
+    dailySessionList.forEach((dailySession: DailySession) => {
+      totalFee += Math.min(this.getRegularFee(dailySession.getDuration(), dailySession.getToday()), 150);
     });
 
     return totalFee;
   }
 
-  private getRegularFee(minutes: number) {
+  private getRegularFee(millisecond: number, today: Date) {
+    const minutes = millisecond / 1000 / 60;
     const period = Math.floor(minutes / 30);
 
-    return (period + 1) * 30;
+
+    let unitPrice = 30;
+    if (today.getDay() === 6) {
+      unitPrice = 50;
+    }
+
+    return (period + 1) * unitPrice;
   }
 
   private isLessFifteenMinutes(totalDuration: number): boolean {

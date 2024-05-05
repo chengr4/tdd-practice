@@ -1,3 +1,4 @@
+import DailySession from "./daily_session.ts";
 import { getStartOfDay } from "./utils/date_tools.ts";
 
 class ParkingSession {
@@ -21,23 +22,29 @@ class ParkingSession {
     return this.end.getTime() - this.start.getTime();
   }
 
-  getDailyDurationList(parkingSession: ParkingSession) {
+  getDailySessionList(parkingSession: ParkingSession): DailySession[] {
     const dailyDurationList: number[] = [];
-    let todayStartTime: number = getStartOfDay(parkingSession.getStart()).getTime();
+    const dailySessionList: DailySession[] = [];
+    const today: Date = getStartOfDay(parkingSession.getStart());
+    let todayStartTime: number = today.getTime();
 
-    // The first loop is now only for parking behavior
     while (todayStartTime < parkingSession.getEnd().getTime()) {
       const tomorrowStartTime: number = todayStartTime + 24 * 60 * 60 * 1000;
       const currentStart = parkingSession.getStart().getTime() > todayStartTime ?
         parkingSession.getStart().getTime() : todayStartTime;
       const currentEnd = parkingSession.getEnd().getTime() < tomorrowStartTime ?
         parkingSession.getEnd().getTime() : tomorrowStartTime;
-      const sessionMinutes = (currentEnd - currentStart) / 1000 / 60;
-      dailyDurationList.push(sessionMinutes);
+      // const sessionDuration = (currentEnd - currentStart) / 1000 / 60;
+      const sessionDuration = currentEnd - currentStart;
+      // dailyDurationList.push(sessionMinutes);
+      dailySessionList.push(new DailySession(
+        sessionDuration,
+        today
+      ));
 
       todayStartTime = tomorrowStartTime;
     }
-    return dailyDurationList;
+    return dailySessionList;
   }
 }
 
