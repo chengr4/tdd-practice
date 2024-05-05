@@ -47,6 +47,12 @@ Deno.test("over 15 min not free on Saturday", () => {
   endParkingAt("2024-01-06T00:15:01Z");
   calculate();
   shouldPay(50);
+
+  // max 2400;
+  startParkingAt("2024-01-06T00:00:00Z");
+  endParkingAt("2024-01-07T00:00:00Z");
+  calculate();
+  shouldPay(2400);
 });
 
 Deno.test("over 15 min not free on Sunday", () => {

@@ -10,11 +10,12 @@ class ParkingFeeCalculator {
     }
 
     const dailySessionList: DailySession[] = parkingSession.getDailySessionList(parkingSession);
+     let totalFee = 0;
 
-    let totalFee = 0;
-    // the second loop is for charging behavior
+    // charging
     dailySessionList.forEach((dailySession: DailySession) => {
-      totalFee += Math.min(this.getRegularFee(dailySession.getDuration(), dailySession.getToday()), 150);
+      const dailyLimit = dailySession.getToday().getDay() === 6 || dailySession.getToday().getDay() === 0 ? 2400 : 150;
+      totalFee += Math.min(this.getRegularFee(dailySession.getDuration(), dailySession.getToday()), dailyLimit);
     });
 
     return totalFee;
