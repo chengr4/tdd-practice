@@ -3,8 +3,6 @@ import ParkingFeeCalculator from "./parking_free_calc_service.ts";
 import { assertEquals } from "std/assert/assert_equals.ts";
 import { ParkingSessionRepositoryImpl1 } from "./repositories/parking_session_repos.ts";
 
-let start: Date;
-let end: Date;
 let actual: number;
 const parkingSessionRepositoryTestUnit = new ParkingSessionRepositoryImpl1();
 
@@ -99,14 +97,12 @@ function shouldPay(expected: number) {
 }
 
 function startParkingAt(startText: string) {
-  start = new Date(startText);
-  parkingSessionRepositoryTestUnit.save(new ParkingSession(start, start));
+  parkingSessionRepositoryTestUnit.save(new ParkingSession(new Date(startText), new Date(startText)));
 }
 
 function endParkingAt(endText: string) {
-  end = new Date(endText);
   const parkingSession = parkingSessionRepositoryTestUnit.find();
-  parkingSession.setEnd(end);
+  parkingSession.setEnd(new Date(endText));
   parkingSessionRepositoryTestUnit.save(parkingSession);
 }
 
