@@ -1,9 +1,20 @@
 import DailySession from "./daily_session.ts";
 import ParkingSession from "./parking_session.ts";
+import { ParkingSessionRepository } from "./repositories/parking_session_repos.ts";
 import { isHoliday } from "./utils/date_tools.ts";
 
-class ParkingFeeCalculator {
-  calculate(parkingSession: ParkingSession) {
+class ParkingFeeCalculatorService {
+  
+  private parkingSessionRepository: ParkingSessionRepository;
+
+  constructor(parkingSessionRepository: ParkingSessionRepository) {
+    this.parkingSessionRepository = parkingSessionRepository;
+  }
+
+  calculate() {
+
+    const parkingSession: ParkingSession = this.parkingSessionRepository.find();
+
     const totalDuration = parkingSession.getTotalDuration();
 
     if (this.isLessFifteenMinutes(totalDuration)) {
@@ -45,4 +56,4 @@ class ParkingFeeCalculator {
   }
 }
 
-export default ParkingFeeCalculator;
+export default ParkingFeeCalculatorService;

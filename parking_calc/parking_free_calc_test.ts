@@ -1,12 +1,14 @@
 import ParkingSession from "./parking_session.ts";
-import ParkingFeeCalculator from "./parking_free_calc.ts";
+import ParkingFeeCalculator from "./parking_free_calc_service.ts";
 import { assertEquals } from "std/assert/assert_equals.ts";
+import { ParkingSessionRepositoryImpl1 } from "./repositories/parking_session_repos.ts";
 
 let start: Date;
 let end: Date;
 let actual: number;
+const parkingSessionRepositoryTestUnit = new ParkingSessionRepositoryImpl1();
 
-const sut = new ParkingFeeCalculator();
+const sut = new ParkingFeeCalculator(parkingSessionRepositoryTestUnit);
 
 Deno.test("15 mins free", () => {
   startParkingAt("2020-01-02T00:00:00Z");
@@ -98,6 +100,7 @@ function shouldPay(expected: number) {
 
 function endParkingAt(endText: string) {
   end = new Date(endText);
+  parkingSessionRepositoryTestUnit.save(new ParkingSession(start, end));
 }
 
 function startParkingAt(startText: string) {
@@ -105,6 +108,5 @@ function startParkingAt(startText: string) {
 }
 
 function calculate() {
-  const parkingSession = new ParkingSession(start, end);
-  actual = sut.calculate(parkingSession);
+  actual = sut.calculate();
 }
