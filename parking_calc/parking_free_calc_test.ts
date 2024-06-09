@@ -98,13 +98,16 @@ function shouldPay(expected: number) {
   assertEquals(actual, expected);
 }
 
-function endParkingAt(endText: string) {
-  end = new Date(endText);
-  parkingSessionRepositoryTestUnit.save(new ParkingSession(start, end));
-}
-
 function startParkingAt(startText: string) {
   start = new Date(startText);
+  parkingSessionRepositoryTestUnit.save(new ParkingSession(start, start));
+}
+
+function endParkingAt(endText: string) {
+  end = new Date(endText);
+  const parkingSession = parkingSessionRepositoryTestUnit.find();
+  parkingSession.setEnd(end);
+  parkingSessionRepositoryTestUnit.save(parkingSession);
 }
 
 function calculate() {
