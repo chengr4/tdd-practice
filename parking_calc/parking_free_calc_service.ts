@@ -11,10 +11,11 @@ class ParkingFeeCalculatorService {
     this.parkingSessionRepository = parkingSessionRepository;
   }
 
-  calculate() {
-
-    const parkingSession: ParkingSession = this.parkingSessionRepository.find();
-
+  calculate(key: string) {
+    const parkingSession = this.parkingSessionRepository.find(key);
+    if (parkingSession === null) {
+      return 0;
+    }
     const totalDuration = parkingSession.getTotalDuration();
 
     if (this.isLessFifteenMinutes(totalDuration)) {

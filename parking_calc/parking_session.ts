@@ -2,10 +2,12 @@ import DailySession from "./daily_session.ts";
 import { getStartOfDay } from "./utils/date_tools.ts";
 
 class ParkingSession {
+  private key: string;
   private start: Date;
   private end: Date;
 
-  constructor(start: Date, end: Date) {
+  constructor(key: string, start: Date, end: Date) {
+    this.key = key;
     this.start = start;
     this.end = end;
   }
@@ -16,6 +18,10 @@ class ParkingSession {
 
   getEnd() {
     return this.end;
+  }
+
+  getKey() {
+    return this.key;
   }
 
   setStart(start: Date): void {
