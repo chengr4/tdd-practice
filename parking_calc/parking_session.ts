@@ -8,6 +8,11 @@ class ParkingSession {
     return new ParkingSession(key, new Date(startText), new Date(startText));
   }
 
+  // DDD: extract factroy method for end
+  over(endText: string) {
+    this.setEnd(new Date(endText));
+  }
+
   private key: string;
   private start: Date;
   private end: Date;

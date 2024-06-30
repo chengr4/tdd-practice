@@ -110,7 +110,10 @@ const parkingSession = ParkingSession.start(key, startText);
 
 function endParkingAt(key: string, endText: string) {
   const parkingSession = parkingSessionRepositoryTestUnit.find(key)!;
-  parkingSession.setEnd(new Date(endText));
+
+  // though over method and setEnd looks same,
+  // in DDD, we prefer mke entity do something rahter than set some field of entity
+  parkingSession.over(endText);
   parkingSessionRepositoryTestUnit.save(parkingSession);
 }
 
