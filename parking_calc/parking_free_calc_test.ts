@@ -104,7 +104,8 @@ function shouldPay(expected: number) {
 }
 
 function startParkingAt(key: string, startText: string) {
-  parkingSessionRepositoryTestUnit.save(new ParkingSession(key, new Date(startText), new Date(startText)));
+const parkingSession = ParkingSession.start(key, startText);
+  parkingSessionRepositoryTestUnit.save(parkingSession);
 }
 
 function endParkingAt(key: string, endText: string) {

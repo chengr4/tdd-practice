@@ -2,6 +2,12 @@ import DailySession from "./daily_session.ts";
 import { getStartOfDay } from "./utils/date_tools.ts";
 
 class ParkingSession {
+  // DDD: extract factroy method for start
+  // it hides "end" field
+  static start(key: string, startText: string) {
+    return new ParkingSession(key, new Date(startText), new Date(startText));
+  }
+
   private key: string;
   private start: Date;
   private end: Date;
