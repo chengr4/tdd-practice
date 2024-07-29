@@ -10,11 +10,9 @@ export interface ParkingSessionRepository {
 // DO: convert entity to a form that is suitable for the database and then save it
 export class ParkingSessionRepositoryImpl1 implements ParkingSessionRepository {
   // mock database
-  private parkingSessionMapOld: Map<string, ParkingSession> = new Map();
   private parkingSessionMap: Map<string, ParkingSessionPersistenceObject> = new Map();
 
   save(parkingSession: ParkingSession): void {
-    // this.parkingSessionMapOld.set(parkingSession.getKey(), parkingSession);
     const parkingSessionPo: ParkingSessionPersistenceObject = new ParkingSessionPersistenceObject();
     parkingSessionPo.setKey(parkingSession.getKey());
     parkingSessionPo.setStart(parkingSession.getStart().getTime());
@@ -36,7 +34,5 @@ export class ParkingSessionRepositoryImpl1 implements ParkingSessionRepository {
     );
 
     return parkingSession;
-
-    // return this.parkingSessionMapOld.get(key) || null;
   }
 }
