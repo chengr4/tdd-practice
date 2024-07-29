@@ -38,6 +38,7 @@ class ParkingSessionPersistenceObject {
     return parkingSessionPo;
   }
 
+  // factory method
   static toEntity(parkingSessionPo: ParkingSessionPersistenceObject) {
     return new ParkingSession(
       parkingSessionPo.getKey(),
