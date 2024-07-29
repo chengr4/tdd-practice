@@ -13,7 +13,7 @@ export class ParkingSessionRepositoryImpl1 implements ParkingSessionRepository {
   private parkingSessionMap: Map<string, ParkingSessionPersistenceObject> = new Map();
 
   save(parkingSession: ParkingSession): void {
-    const parkingSessionPo: ParkingSessionPersistenceObject = ParkingSessionPersistenceObject.of(parkingSession);
+    const parkingSessionPo: ParkingSessionPersistenceObject = ParkingSessionPersistenceObject.ofEntity(parkingSession);
 
     this.parkingSessionMap.set(parkingSession.getKey(), parkingSessionPo);
   }
@@ -24,12 +24,10 @@ export class ParkingSessionRepositoryImpl1 implements ParkingSessionRepository {
       return null;
     }
 
-    const parkingSession = new ParkingSession(
-      parkingSessionPo.getKey(),
-      new Date(parkingSessionPo.getStart()),
-      new Date(parkingSessionPo.getEnd())
-    );
+    const parkingSession = ParkingSessionPersistenceObject.toEntity(parkingSessionPo);
 
     return parkingSession;
   }
+
+
 }

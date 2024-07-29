@@ -30,12 +30,20 @@ class ParkingSessionPersistenceObject {
   }
 
   // factory method
-  static of(parkingSession: ParkingSession) {
+  static ofEntity(parkingSession: ParkingSession) {
     const parkingSessionPo: ParkingSessionPersistenceObject = new ParkingSessionPersistenceObject();
     parkingSessionPo.setKey(parkingSession.getKey());
     parkingSessionPo.setStart(parkingSession.getStart().getTime());
     parkingSessionPo.setEnd(parkingSession.getEnd().getTime());
     return parkingSessionPo;
+  }
+
+  static toEntity(parkingSessionPo: ParkingSessionPersistenceObject) {
+    return new ParkingSession(
+      parkingSessionPo.getKey(),
+      new Date(parkingSessionPo.getStart()),
+      new Date(parkingSessionPo.getEnd())
+    );
   }
 }
 
