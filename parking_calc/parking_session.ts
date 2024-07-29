@@ -9,7 +9,7 @@ class ParkingSession {
   }
 
   // DDD: extract factroy method for end
-  over(endText: string) {
+  overAt(endText: string) {
     this.setEnd(new Date(endText));
   }
 

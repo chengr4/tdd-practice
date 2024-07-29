@@ -113,7 +113,7 @@ function endParkingAt(key: string, endText: string) {
 
   // though over method and setEnd looks same,
   // in DDD, we prefer mke entity do something rahter than set some field of entity
-  parkingSession.over(endText);
+  parkingSession.overAt(endText);
   parkingSessionRepositoryTestUnit.save(parkingSession);
 }
 
