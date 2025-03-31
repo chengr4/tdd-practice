@@ -7,6 +7,7 @@
 ## Keep in mind
 
 - 在 clean code 的過程中，DB 決策應該推遲
+- 沒有代表性的測試不要留
 
 ## References
 

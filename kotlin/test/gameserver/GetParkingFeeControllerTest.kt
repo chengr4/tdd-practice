@@ -21,6 +21,26 @@ class GetParkingFeeControllerTest {
     }
 
     @Test
+    fun park_1_hour_30_secs() {
+
+        // (Semantics) Separate start time and end time in domain ParkingSession
+
+        val p = ParkingSession.driveIn(LocalDateTime.parse("2021-01-01T00:00:00"))
+        p.driveOut(LocalDateTime.parse("2021-01-01T01:00:30"))
+
+        // mock database
+        parkingSessions.add(p)
+
+        // inject data
+        sut = GetParkingFeeController(parkingSessions)
+
+        val actual: Int = sut.calculate()
+
+        // Then
+        assertEquals(120, actual)
+    }
+
+    @Test
     fun park_1_hour() {
 
         // (Semantics) Separate start time and end time in domain ParkingSession

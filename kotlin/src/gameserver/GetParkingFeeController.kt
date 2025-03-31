@@ -2,7 +2,7 @@ package gameserver
 
 import java.time.Duration
 
-class GetParkingFeeController(val parkingSessions: MutableList<ParkingSession>) {
+class GetParkingFeeController(private val parkingSessions: MutableList<ParkingSession>) {
     fun calculate(): Int {
         val parkingSession = parkingSessions[0]
 
@@ -10,15 +10,17 @@ class GetParkingFeeController(val parkingSessions: MutableList<ParkingSession>) 
         val parkingSessionEndTime = parkingSession.endTime
 
         val duration = Duration.between(parkingSessionStartTime, parkingSessionEndTime)
-        val ceilingMinutes = duration.plus(Duration.ofMinutes(1)).minusNanos(1).toMinutes()
-        
+        val ceilingMinutes = getCeilingMinutes(duration)
+
         if (ceilingMinutes <= 15) {
 
             return 0
         }
 
-        return 60
+        val ceilingHours = duration.plusHours(1).minusNanos(1).toHours()
 
-
+        return 60 * ceilingHours.toInt()
     }
+
+    private fun getCeilingMinutes(duration: Duration) = duration.plusMinutes(1).minusNanos(1).toMinutes()
 }
