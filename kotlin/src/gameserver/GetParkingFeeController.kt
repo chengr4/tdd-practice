@@ -10,7 +10,9 @@ class GetParkingFeeController(val parkingSessions: MutableList<ParkingSession>) 
         val parkingSessionEndTime = parkingSession.endTime
 
         val duration = Duration.between(parkingSessionStartTime, parkingSessionEndTime)
-        if (duration.toMinutes() <= 15) {
+        val ceilingMinutes = duration.plus(Duration.ofMinutes(1)).minusNanos(1).toMinutes()
+        
+        if (ceilingMinutes <= 15) {
 
             return 0
         }

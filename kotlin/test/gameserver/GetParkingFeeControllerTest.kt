@@ -41,7 +41,23 @@ class GetParkingFeeControllerTest {
     }
 
     @Test
-    fun free() {
+    fun park_15_mins_30_secs() {
+        val p = ParkingSession.driveIn(LocalDateTime.parse("2021-01-01T00:00:00"))
+        p.driveOut(LocalDateTime.parse("2021-01-01T00:15:30"))
+
+        // mock database
+        parkingSessions.add(p)
+
+        sut = GetParkingFeeController(parkingSessions)
+
+        val actual: Int = sut.calculate()
+
+        // Then
+        assertEquals(60, actual)
+    }
+
+    @Test
+    fun park_15_mins() {
         val p = ParkingSession.driveIn(LocalDateTime.parse("2021-01-01T00:00:00"))
         p.driveOut(LocalDateTime.parse("2021-01-01T00:15:00"))
 
