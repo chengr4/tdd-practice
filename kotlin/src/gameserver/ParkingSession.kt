@@ -8,6 +8,11 @@ data class ParkingSession(
     var endTime: LocalDateTime? = null
 ) {
 
+    // Feature Envy
+    fun driveOut(time: LocalDateTime) {
+        endTime = time
+    }
+
     // static
     companion object {
         fun driveIn(time: LocalDateTime): ParkingSession {

@@ -26,7 +26,7 @@ class GetParkingFeeControllerTest {
         // (Semantics) Separate start time and end time in domain ParkingSession
 
         val p = ParkingSession.driveIn(LocalDateTime.parse("2021-01-01T00:00:00"))
-        driveOut(p, LocalDateTime.parse("2021-01-01T01:00:00"))
+        p.driveOut(LocalDateTime.parse("2021-01-01T01:00:00"))
 
         // mock database
         parkingSessions.add(p)
@@ -40,18 +40,10 @@ class GetParkingFeeControllerTest {
         assertEquals(60, actual)
     }
 
-    // Feature Envy
-    private fun driveOut(p: ParkingSession, time: LocalDateTime) {
-        p.endTime = time
-    }
-
     @Test
     fun free() {
-        val p = ParkingSession(
-            startTime = LocalDateTime.parse("2021-01-01T00:00:00"),
-        )
-        p.endTime = LocalDateTime.parse("2021-01-01T00:15:00")
-
+        val p = ParkingSession.driveIn(LocalDateTime.parse("2021-01-01T00:00:00"))
+        p.driveOut(LocalDateTime.parse("2021-01-01T00:15:00"))
 
         // mock database
         parkingSessions.add(p)
