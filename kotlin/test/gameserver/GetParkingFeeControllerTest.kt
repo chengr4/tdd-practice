@@ -1,10 +1,24 @@
 package gameserver
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
 
 class GetParkingFeeControllerTest {
+    // Declare the field for the system under test (sut)
+    private lateinit var sut: GetParkingFeeController
+
+    // Declare a field for the parking sessions data source.
+    private lateinit var parkingSessions: MutableList<ParkingSession>
+
+    // The setup method is executed before each test,
+    // so we use it to initialize our database (mock) and sut.
+    @BeforeEach
+    fun setup() {
+        // Initialize the mock database
+        parkingSessions = mutableListOf()
+    }
 
     @Test
     fun park_1_hour() {
@@ -15,11 +29,10 @@ class GetParkingFeeControllerTest {
         )
 
         // mock database
-        val parkingSessions = mutableListOf<ParkingSession>()
         parkingSessions.add(p)
 
         // inject data
-        val sut = GetParkingFeeController(parkingSessions)
+        sut = GetParkingFeeController(parkingSessions)
 
         val actual: Int = sut.calculate()
 
@@ -35,10 +48,9 @@ class GetParkingFeeControllerTest {
         )
 
         // mock database
-        val parkingSessions = mutableListOf<ParkingSession>()
         parkingSessions.add(p)
 
-        val sut = GetParkingFeeController(parkingSessions)
+        sut = GetParkingFeeController(parkingSessions)
 
         val actual: Int = sut.calculate()
 
