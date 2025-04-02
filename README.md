@@ -9,6 +9,7 @@
 
 - 在 clean code 的過程中，DB 決策應該推遲
 - 沒有代表性的測試不要留
+- inject repository to service and inject service to controller
 
 ## References
 

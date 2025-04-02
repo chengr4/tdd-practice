@@ -18,7 +18,7 @@ class GetParkingFeeControllerTest {
         // inject the mock database
         parkingSessionRepository = ParkingSessionRepository(mutableListOf())
         // inject repository
-        sut = GetParkingFeeController(parkingSessionRepository)
+        sut = GetParkingFeeController(GetParkingFeeService(parkingSessionRepository))
     }
 
     @Test
