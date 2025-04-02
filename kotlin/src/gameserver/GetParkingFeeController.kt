@@ -2,33 +2,15 @@ package gameserver
 
 import java.time.Duration
 
+// What controller should do is format transformation
 class GetParkingFeeController(private val parkingSessionRepository: ParkingSessionRepository) {
+    // data from outside keep injecting to service
+    val getParkingFeeService: GetParkingFeeService = GetParkingFeeService(parkingSessionRepository)
 
+    // Calculate() not belongs to controller, it belongs to service
     fun calculate(): Int {
 
-        // To get entity, use repository
-        val parkingSession = parkingSessionRepository.find()
-
-        val parkingSessionStartTime = parkingSession.startTime
-        val parkingSessionEndTime = parkingSession.endTime
-
-        val duration = Duration.between(parkingSessionStartTime, parkingSessionEndTime)
-        val ceilingMinutes = getCeilingMinutes(duration)
-
-        if (ceilingMinutes <= 15) {
-
-            return 0
-        }
-
-        val ceilingHours = getCeilingHours(duration)
-
-        return 60 * ceilingHours.toInt()
+        return getParkingFeeService.doCalculate()
     }
 
-    private fun getCeilingHours(duration: Duration): Long {
-        val ceilingHours = duration.plusHours(1).minusNanos(1).toHours()
-        return ceilingHours
-    }
-
-    private fun getCeilingMinutes(duration: Duration) = duration.plusMinutes(1).minusNanos(1).toMinutes()
 }
