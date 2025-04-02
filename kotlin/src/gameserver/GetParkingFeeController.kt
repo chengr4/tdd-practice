@@ -6,7 +6,7 @@ class GetParkingFeeController(private val parkingSessionRepository: ParkingSessi
 
     fun calculate(): Int {
 
-        // this behavior belongs to repository
+        // To get entity, use repository
         val parkingSession = parkingSessionRepository.find()
 
         val parkingSessionStartTime = parkingSession.startTime

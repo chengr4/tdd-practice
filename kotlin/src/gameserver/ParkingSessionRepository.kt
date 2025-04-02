@@ -4,4 +4,8 @@ class ParkingSessionRepository(private val parkingSessions: MutableList<ParkingS
 
     fun find() = parkingSessions[0]
 
+    fun save(ps: ParkingSession) {
+        parkingSessions.add(ps)
+    }
+
 }
