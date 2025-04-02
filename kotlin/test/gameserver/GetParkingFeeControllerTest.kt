@@ -24,23 +24,26 @@ class GetParkingFeeControllerTest {
 
     @Test
     fun two_cars() {
-        // (Semantics) Separate start time and end time in domain ParkingSession
-        val p = ParkingSession.driveIn("AAA-111", LocalDateTime.parse("2021-01-01T00:00:00"))
-        // mock database
-        parkingSessionRepository.save(p)
-
-        val pOut = parkingSessionRepository.find("AAA-111")
-
-        pOut.driveOut(LocalDateTime.parse("2021-01-01T01:00:00"))
-        parkingSessionRepository.save(pOut)
-
-        val p2 = ParkingSession.driveIn("AAA-222", LocalDateTime.parse("2021-01-01T00:00:00"))
-        // mock database
-        parkingSessionRepository.save(p2)
+        when_drive_In("AAA-111", "2021-01-01T00:00:00")
+        when_drive_out("AAA-111", "2021-01-01T01:00:00")
+        when_drive_In("AAA-222", "2021-01-01T00:00:00")
 
         // Then
         assertEquals(60, sut.calculate("AAA-111"))
         assertEquals(0, sut.calculate("AAA-222"))
+    }
+
+    private fun when_drive_out(plateNumber: String, timeText: String) {
+        val pOut = parkingSessionRepository.find(plateNumber)
+
+        pOut.driveOut(LocalDateTime.parse(timeText))
+        parkingSessionRepository.save(pOut)
+    }
+
+    private fun when_drive_In(plateNumber: String, timeText: String) {
+        val p = ParkingSession.driveIn(plateNumber, LocalDateTime.parse(timeText))
+        // mock database
+        parkingSessionRepository.save(p)
     }
 
     @Test
