@@ -10,6 +10,7 @@
 - 在 clean code 的過程中，DB 決策應該推遲
 - 沒有代表性的測試不要留
 - inject repository to service and inject service to controller
+- 修改通常從 controller 改起，因為是應用程式的最外層，與使用者互動的邊界
 
 ## References
 

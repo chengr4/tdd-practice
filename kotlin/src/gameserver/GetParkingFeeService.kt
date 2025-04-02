@@ -3,12 +3,15 @@ package gameserver
 import java.time.Duration
 
 class GetParkingFeeService(private val parkingSessionRepository: ParkingSessionRepository) {
-    fun doCalculate(): Int {
+    fun doCalculate(plateNumber: String): Int {
         // To get entity, use repository
-        val parkingSession = parkingSessionRepository.find()
+        val parkingSession = parkingSessionRepository.find(plateNumber)
 
         val parkingSessionStartTime = parkingSession.startTime
         val parkingSessionEndTime = parkingSession.endTime
+        if (parkingSession.endTime == null) {
+            return 0
+        }
 
         val duration = Duration.between(parkingSessionStartTime, parkingSessionEndTime)
         val ceilingMinutes = getCeilingMinutes(duration)

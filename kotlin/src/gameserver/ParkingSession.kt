@@ -4,6 +4,7 @@ import java.time.LocalDateTime
 
 
 data class ParkingSession(
+    var plateNumber: String,
     var startTime: LocalDateTime? = null,
     var endTime: LocalDateTime? = null
 ) {
@@ -15,8 +16,8 @@ data class ParkingSession(
 
     // static
     companion object {
-        fun driveIn(time: LocalDateTime): ParkingSession {
-            val p = ParkingSession()
+        fun driveIn(plateNumber: String, time: LocalDateTime): ParkingSession {
+            val p = ParkingSession(plateNumber)
             p.startTime = time
             return p
         }
