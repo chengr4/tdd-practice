@@ -18,6 +18,8 @@ class GetParkingFeeControllerTest {
     fun setup() {
         // Initialize the mock database
         parkingSessions = mutableListOf()
+        // inject repository
+        sut = GetParkingFeeController(ParkingSessionRepository(parkingSessions))
     }
 
     @Test
@@ -31,8 +33,7 @@ class GetParkingFeeControllerTest {
         // mock database
         parkingSessions.add(p)
 
-        // inject data
-        sut = GetParkingFeeController(parkingSessions)
+
 
         val actual: Int = sut.calculate()
 
@@ -51,9 +52,6 @@ class GetParkingFeeControllerTest {
         // mock database
         parkingSessions.add(p)
 
-        // inject data
-        sut = GetParkingFeeController(parkingSessions)
-
         val actual: Int = sut.calculate()
 
         // Then
@@ -68,8 +66,6 @@ class GetParkingFeeControllerTest {
         // mock database
         parkingSessions.add(p)
 
-        sut = GetParkingFeeController(parkingSessions)
-
         val actual: Int = sut.calculate()
 
         // Then
@@ -83,9 +79,7 @@ class GetParkingFeeControllerTest {
 
         // mock database
         parkingSessions.add(p)
-
-        sut = GetParkingFeeController(parkingSessions)
-
+        
         val actual: Int = sut.calculate()
 
         // Then

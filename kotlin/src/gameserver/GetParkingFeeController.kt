@@ -2,8 +2,7 @@ package gameserver
 
 import java.time.Duration
 
-class GetParkingFeeController(parkingSessions: MutableList<ParkingSession>) {
-    private val parkingSessionRepository: ParkingSessionRepository = ParkingSessionRepository(parkingSessions);
+class GetParkingFeeController(private val parkingSessionRepository: ParkingSessionRepository) {
 
     fun calculate(): Int {
 
