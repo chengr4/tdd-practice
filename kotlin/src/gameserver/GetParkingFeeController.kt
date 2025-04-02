@@ -2,9 +2,13 @@ package gameserver
 
 import java.time.Duration
 
-class GetParkingFeeController(private val parkingSessions: MutableList<ParkingSession>) {
+class GetParkingFeeController(parkingSessions: MutableList<ParkingSession>) {
+    private val parkingSessionRepository: ParkingSessionRepository = ParkingSessionRepository(parkingSessions);
+
     fun calculate(): Int {
-        val parkingSession = parkingSessions[0]
+
+        // this behavior belongs to repository
+        val parkingSession = parkingSessionRepository.find()
 
         val parkingSessionStartTime = parkingSession.startTime
         val parkingSessionEndTime = parkingSession.endTime
@@ -17,9 +21,14 @@ class GetParkingFeeController(private val parkingSessions: MutableList<ParkingSe
             return 0
         }
 
-        val ceilingHours = duration.plusHours(1).minusNanos(1).toHours()
+        val ceilingHours = getCeilingHours(duration)
 
         return 60 * ceilingHours.toInt()
+    }
+
+    private fun getCeilingHours(duration: Duration): Long {
+        val ceilingHours = duration.plusHours(1).minusNanos(1).toHours()
+        return ceilingHours
     }
 
     private fun getCeilingMinutes(duration: Duration) = duration.plusMinutes(1).minusNanos(1).toMinutes()
